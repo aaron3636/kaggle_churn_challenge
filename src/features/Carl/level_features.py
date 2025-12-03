@@ -2,6 +2,8 @@ import pandas as pd
 
 
 def last_level_of_each_customer(df: pd.DataFrame):
+
+    # TODO This is probably wrong
     df["last_time"] = df.groupby(["userId"])["time"].transform("max")
 
     df["last_item"] = df.groupby(["userId", "sessionId"])[
