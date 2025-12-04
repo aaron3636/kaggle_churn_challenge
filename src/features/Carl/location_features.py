@@ -32,3 +32,17 @@ def location_state_one_hot_encoded(df: pd.DataFrame):
     df = df.drop_duplicates()
 
     return df
+
+
+def location_state_one_hot_encoded_1(df: pd.DataFrame):
+
+    df["state"] = df["location"].apply(lambda s: s.split(",")[-1].strip())
+
+    s = df["state"].str.get_dummies(sep="-")  # columns like CA, NY, NJ, ...
+
+    out = pd.concat([df[["userId", "week_slice"]], s], axis=1)
+
+    # one row per (userId, week_slice); max = "did this state appear at least once"
+    out = out.groupby(["userId", "week_slice"], as_index=False).max()
+
+    return out

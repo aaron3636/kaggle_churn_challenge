@@ -21,6 +21,23 @@ def total_number_of_sessions(df: pd.DataFrame):
         .reset_index(name="total_number_of_sessions")
 
 
+def total_number_of_sessions_1(df: pd.DataFrame):
+    """
+    Docstring for total_number_of_sessions
+
+    :param df: event log data frame
+
+    :type df: pd.DataFrame
+
+    :output df:
+    One column: userId
+    Second column: total_number_of_sessions
+    """
+
+    return df.groupby(["userId", "week_slice"])["sessionId"].nunique()\
+        .reset_index(name="total_number_of_sessions")
+
+
 def time_last_used(df: pd.DataFrame):
 
     # last time the user used the application
@@ -35,6 +52,24 @@ def time_last_used(df: pd.DataFrame):
     df["time_not_used"] = df["today"] - df["time_last_used"]
 
     return_df = df[["userId", "time_not_used"]].drop_duplicates()
+
+    return return_df
+
+
+def time_last_used_1(df: pd.DataFrame):
+
+    # last time the user used the application
+
+    df["today"] = df["time"].max()
+    df["today"] = pd.to_datetime(df["today"]).dt.date
+
+    df["time_last_used"] = df.groupby(["userId", "week_slice"])["time"].transform("max")
+    df["time_last_used"] = pd.to_datetime(df["time_last_used"]).dt.date
+
+    # time since last session until today: 2018-11-20
+    df["time_not_used"] = df["today"] - df["time_last_used"]
+
+    return_df = df[["userId", "time_not_used", "week_slice"]].drop_duplicates()
 
     return return_df
 
