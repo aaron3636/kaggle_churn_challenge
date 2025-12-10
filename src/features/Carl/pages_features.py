@@ -1,4 +1,5 @@
 import pandas as pd
+from .utils import weekly_features
 
 
 def feature_total_pages_count(dataframe: pd.DataFrame):
@@ -19,6 +20,31 @@ def feature_total_pages_count(dataframe: pd.DataFrame):
     dataframe.fillna(0, inplace=True)
 
     return dataframe
+
+
+def feature_page_dynamic(df: pd.DataFrame, page: str, rolling_time_window=1):
+    # df_pages = df[df["page"] == "Downgrade"]
+
+    df_pages = df[df["page"] == page]
+
+    df_pages_downgrade = df_pages.groupby(["userId", "date"])[
+        "page"].count().reset_index(name=f"number_of_{page}")
+
+    df_pages_downgrade_rolling = weekly_features(
+        df=df_pages_downgrade,
+        feature=f"number_of_{page}",
+        rolling_time_window=rolling_time_window)
+
+    df_res = pd.DataFrame(
+        data={
+            "userId": df["userId"].unique(),
+        })
+
+    df_res = df_res.merge(df_pages_downgrade_rolling, on="userId", how="left")
+
+    df_res = df_res.fillna(0.0)
+
+    return df_res
 
 
 def feature_total_pages_count_1(dataframe: pd.DataFrame):

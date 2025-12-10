@@ -20,4 +20,6 @@ def gender_feature_ont_hot_1(df: pd.DataFrame):
 
     df_a["gender"] = pd.to_numeric(df_a["gender"])
 
+    df_a["gender"] = df_a["gender"].astype(int)
+
     return df_a

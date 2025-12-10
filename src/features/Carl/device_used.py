@@ -26,9 +26,9 @@ def exact_device_type(df: pd.DataFrame):
 
     df_a = df[["userId", "exact_device"]]
 
-    df_b = df_a.drop_duplicates()
+    df_b = df_a.drop_duplicates().copy()
 
-    df_b.loc[:, "val"] = np.ones(len(df_b))
+    df_b.loc[:, "val"] = 1
 
     df_c = df_b.pivot(index="userId", columns="exact_device", values="val")
 
