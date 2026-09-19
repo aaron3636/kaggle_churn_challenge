@@ -1,0 +1,20 @@
+.git
+.github
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.ruff_cache
+.DS_Store
+
+# Raw data is not redistributable and not needed at runtime (see README)
+data/churn-prediction-25-26/
+data/churn-prediction-25-26.zip
+
+# Legacy exploration code — not part of the shipped app
+Nelson_stuff/
+src/features/
+src/pipeline/
+src/sandbox/
+submissions/
+src/my_package.egg-info/

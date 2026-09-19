@@ -1,0 +1,25 @@
+# Data (not redistributable — see README for download instructions)
+data/churn-prediction-25-26/
+data/churn-prediction-25-26.zip
+data/processed/*.parquet
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.venv/
+
+# uv
+uv-cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
